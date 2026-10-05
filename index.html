@@ -1,0 +1,568 @@
+<meta charset="utf-8">
+<title>Fabián Gómez 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap">
+<style>
+/* Layout: one dark sheet; hero = the Piedra 3D drawing itself over its construction guides, then a masonry reel filtered by service, then tools and contact as quiet lists. Brand: Monocromía Brutal (B/N only). */
+:root{
+  --bg:#0A0A0A; --fg:#F2F2F2; --muted:#9A9A9A; --guide:#6E6E6E; --line:#242424; --panel:#121212; --danger:#FF8A80;
+  --display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gutter:clamp(16px,4vw,48px); --max:1280px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);font-size:16px;line-height:1.5;margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gutter)}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{text-wrap:balance;margin:0;font-weight:700;letter-spacing:-.02em}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:16px;padding-block:12px}
+.bar .mark{width:26px;height:26px;flex:none}
+.bar .who{font-weight:700;letter-spacing:-.01em}
+.bar nav{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
+.bar nav a{text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bar nav a:hover{color:var(--fg)}
+@media (max-width:560px){.bar nav{display:none}}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,5vw,72px);align-items:center;padding-block:clamp(40px,8vw,96px) clamp(32px,6vw,72px)}
+.hero h1{font-size:clamp(44px,8vw,104px);line-height:.92}
+.hero .role{margin-top:20px;font-family:var(--mono);font-size:clamp(12px,1.4vw,14px);letter-spacing:.08em;text-transform:uppercase}
+.hero p.lede{margin:20px 0 0;max-width:46ch;color:var(--muted);font-size:clamp(16px,1.6vw,18px)}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border:1px solid var(--fg);background:transparent;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.btn.solid{background:var(--fg);color:var(--bg)}
+.btn:hover{background:var(--fg);color:var(--bg)}
+.btn.solid:hover{background:transparent;color:var(--fg)}
+.logo-stage{position:relative;max-width:460px;width:100%;justify-self:center}
+.logo-stage svg{display:block;width:100%;height:auto}
+.guides line,.guides circle{stroke:var(--guide);stroke-width:2;stroke-dasharray:8 10;fill:none}
+.sym{fill:none;stroke:var(--fg);stroke-width:22;stroke-linejoin:round;stroke-linecap:round}
+.sym .dot{fill:var(--fg);stroke:none}
+.draw .s{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.1s cubic-bezier(.6,0,.2,1) forwards;animation-delay:var(--d)}
+.draw .dot{transform-origin:500px 500px;transform:scale(0);animation:pop .35s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:2.1s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.draw .s{animation:none;stroke-dashoffset:0}.draw .dot{animation:none;transform:none}}
+@media (max-width:760px){.hero .wrap{grid-template-columns:1fr}.logo-stage{max-width:260px;order:-1;justify-self:start}}
+
+/* services */
+.services{border-top:1px solid var(--line)}
+.services ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.services li{padding:28px 24px 28px 0;border-bottom:1px solid var(--line);display:grid;gap:8px;align-content:start;min-width:0}
+.services li+li{padding-left:0}
+.services li a{text-decoration:none;display:grid;gap:8px}
+.services h3{font-size:22px}
+.services p{margin:0;color:var(--muted);font-size:15px;max-width:38ch}
+.services .count{font-family:var(--mono);font-size:11px;color:var(--guide);letter-spacing:.06em}
+@media (max-width:900px){.services ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.services ul{grid-template-columns:1fr}}
+
+/* section head */
+.sec{padding-block:clamp(48px,7vw,88px) 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.sec-head h2{font-size:clamp(30px,4.4vw,52px);line-height:1}
+
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.chip{border:1px solid var(--line);background:transparent;padding:8px 12px;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chip[aria-pressed="true"]{border-color:var(--fg);color:var(--fg)}
+.chip:hover{color:var(--fg)}
+.chip span{color:var(--guide);margin-left:6px}
+
+/* reel */
+.reel{columns:3 300px;column-gap:16px}
+.card{break-inside:avoid;margin:0 0 16px;position:relative;display:block;width:100%;padding:0;border:0;background:var(--panel);cursor:zoom-in;text-align:left}
+.card .media{display:block;width:100%;height:auto;background:var(--panel)}
+.card .meta{display:flex;justify-content:space-between;gap:12px;padding:10px 2px 4px;background:var(--bg)}
+.card .t{font-weight:500;font-size:15px;min-width:0;overflow-wrap:anywhere}
+.card .k{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.card .play{position:absolute;top:10px;left:10px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;padding:4px 6px;background:rgba(10,10,10,.7);color:var(--fg)}
+.card .del{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;background:var(--bg);border:1px solid var(--line);color:var(--fg);cursor:pointer}
+.card .del.confirm{border-color:var(--danger);color:var(--danger)}
+.empty{border:1px dashed var(--line);padding:40px 24px;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:var(--fg);font-size:18px;margin-bottom:6px}
+
+/* tools */
+.tools ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.tools li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;gap:16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+.tools .n{font-size:clamp(20px,2.6vw,28px);font-weight:700;letter-spacing:-.01em}
+.tools .d{color:var(--muted);min-width:0}
+.tools .c{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--guide)}
+@media (max-width:640px){.tools li{grid-template-columns:1fr;gap:4px}}
+
+/* contact */
+.contact{padding-block:clamp(56px,8vw,104px)}
+.contact .mail{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.contact .addr{font-size:clamp(20px,3.4vw,40px);font-weight:700;letter-spacing:-.02em;user-select:all;overflow-wrap:anywhere;min-width:0}
+footer{border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:20px}
+
+/* lightbox */
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(96vw,1400px);max-height:94vh;color:var(--fg)}
+dialog.lb::backdrop{background:rgba(5,5,5,.94)}
+.lb figure{margin:0;display:grid;gap:12px}
+.lb .media{max-width:100%;max-height:82vh;width:auto;height:auto;display:block;margin:0 auto}
+.lb figcaption{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
+.lb .desc{color:var(--muted);max-width:60ch;margin:4px 0 0}
+.lb .x{position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);right:16px}
+
+/* editor */
+.edit-toggle{position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:30}
+dialog.ed{border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:0;width:min(560px,94vw);max-height:92vh}
+dialog.ed::backdrop{background:rgba(5,5,5,.8)}
+.ed form{display:grid;gap:16px;padding:24px}
+.ed h2{font-size:26px}
+.field{display:grid;gap:6px;min-width:0}
+.field input[type=text],.field input[type=number],.field select,.field textarea{background:var(--panel);border:1px solid var(--line);padding:10px 12px;width:100%}
+.field textarea{min-height:72px;resize:vertical}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:12px}
+.drop{border:1px dashed var(--guide);padding:20px;display:grid;gap:6px;justify-items:center;text-align:center;cursor:pointer}
+.drop.over{border-color:var(--fg)}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.drop .preview{max-width:100%;max-height:200px;display:block}
+.toolpick{display:flex;flex-wrap:wrap;gap:8px}
+.toolpick label{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);padding:6px 10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;cursor:pointer}
+.toolpick input{accent-color:var(--fg)}
+.msg{font-family:var(--mono);font-size:12px;min-height:18px}
+.msg.err{color:var(--danger)}
+.actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.hint{font-size:13px;color:var(--muted);margin:0}
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <svg class="mark" viewBox="89 89 822 822" aria-hidden="true"><g class="sym"><circle cx="500" cy="500" r="400"/><polygon points="500,100 846.4,700 153.6,700"/><polygon points="500,300 673.2,400 673.2,600 500,700 326.8,600 326.8,400"/><polyline points="326.8,400 500,500 673.2,400"/><line x1="500" y1="500" x2="500" y2="700"/><circle class="dot" cx="500" cy="500" r="20"/></g></svg>
+    <span class="who">Fabián Gómez</span>
+    <nav aria-label="Secciones">
+      <a href="#trabajo">Trabajo</a><a href="#herramientas">Herramientas</a><a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Fabián<br>Gómez</h1>
+        <div class="role">Artista 3D · CGI · VFX · FOOH</div>
+        <p class="lede">Más de 7 años en 3D y video. Diseño, animo y compongo piezas para marcas: productos que no existen todavía, anuncios que se salen de la pantalla y reels editados y colorizados a mano.</p>
+        <div class="cta">
+          <a class="btn solid" href="#trabajo">Ver proyectos</a>
+          <a class="btn" href="#contacto">Escríbeme</a>
+        </div>
+      </div>
+      <div class="logo-stage" aria-hidden="true">
+        <svg viewBox="40 40 920 920" id="heroLogo">
+          <g class="guides"><line x1="60" y1="500" x2="940" y2="500"/><line x1="500" y1="60" x2="500" y2="940"/><line x1="60" y1="700" x2="940" y2="700"/><circle cx="500" cy="500" r="200"/></g>
+          <g class="sym">
+            <circle class="s" cx="500" cy="500" r="400" style="--len:2514;--d:.1s" transform="rotate(-90 500 500)"/>
+            <polygon class="s" points="500,100 846.4,700 153.6,700" style="--len:2079;--d:.55s"/>
+            <polygon class="s" points="500,300 673.2,400 673.2,600 500,700 326.8,600 326.8,400" style="--len:1200;--d:1.0s"/>
+            <polyline class="s" points="326.8,400 500,500 673.2,400" style="--len:400;--d:1.45s"/>
+            <line class="s" x1="500" y1="500" x2="500" y2="700" style="--len:200;--d:1.6s"/>
+            <circle class="dot" cx="500" cy="500" r="20"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" aria-label="Servicios">
+    <div class="wrap"><ul id="services"></ul></div>
+  </section>
+
+  <section class="sec" id="trabajo">
+    <div class="wrap">
+      <div class="sec-head"><h2>Trabajo</h2><span class="label" id="total"></span></div>
+      <div class="filters" id="filters" role="group" aria-label="Filtrar por servicio"></div>
+      <div class="reel" id="reel"></div>
+    </div>
+  </section>
+
+  <section class="sec tools" id="herramientas">
+    <div class="wrap">
+      <div class="sec-head"><h2>Herramientas</h2><span class="label">Pipeline</span></div>
+      <ul>
+        <li><span class="n">Blender</span><span class="d">Modelado, rigging, animación y render en Cycles y Eevee. Mi base para casi todo.</span><span class="c">3D</span></li>
+        <li><span class="n">Houdini</span><span class="d">Simulaciones, destrucción, fluidos y FX procedurales.</span><span class="c">FX</span></li>
+        <li><span class="n">Nuke</span><span class="d">Composición, integración de CGI sobre plano real y limpieza.</span><span class="c">Comp</span></li>
+        <li><span class="n">DaVinci Resolve</span><span class="d">Edición y colorización. También doy clases de color y edición en Resolve.</span><span class="c">Edición · Color</span></li>
+        <li><span class="n">Substance Painter</span><span class="d">Texturizado PBR para producto, personajes y props.</span><span class="c">Texturas</span></li>
+        <li><span class="n">Unreal Engine</span><span class="d">Entornos y render en tiempo real para proyectos grandes.</span><span class="c">Real-time</span></li>
+        <li><span class="n">IA local</span><span class="d">Generación de imagen y video en mi propia máquina: influencers virtuales y contenido para marcas.</span><span class="c">IA</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <div class="wrap">
+      <span class="label">Contacto</span>
+      <h2 style="font-size:clamp(30px,4.4vw,52px);margin-top:10px">¿Tienes un producto que quieres ver en 3D?</h2>
+      <div class="mail">
+        <span class="addr" id="addr">fabian.gomez.cgi@gmail.com</span>
+        <button class="btn" type="button" id="copy">Copiar correo</button>
+      </div>
+      <p class="label" id="copied" aria-live="polite" style="margin-top:10px"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span class="label">Fabián Andrés Gómez Caballero</span><span class="label">Colombia · 3D · CGI · VFX · FOOH</span></div>
+</footer>
+
+<dialog class="lb" id="lb" aria-label="Proyecto">
+  <button class="btn x" type="button" id="lbClose">Cerrar</button>
+  <figure>
+    <div id="lbMedia"></div>
+    <figcaption>
+      <div style="min-width:0"><h3 id="lbTitle" style="font-size:24px"></h3><p class="desc" id="lbDesc"></p></div>
+      <span class="label" id="lbMeta"></span>
+    </figcaption>
+  </figure>
+</dialog>
+
+<button class="btn solid edit-toggle" type="button" id="editToggle" hidden>+ Subir proyecto</button>
+
+<dialog class="ed" id="ed" aria-labelledby="edTitle">
+  <form id="edForm" novalidate>
+    <h2 id="edTitle">Subir proyecto</h2>
+    <label class="drop" id="drop" for="file">
+      <input type="file" id="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm">
+      <span id="dropText"><strong>Arrastra un render o un clip</strong><br><span class="hint">JPG, PNG, WEBP o GIF · MP4 o WEBM hasta 15 MB</span></span>
+      <span id="dropPreview"></span>
+    </label>
+    <p class="hint">Las fotos se optimizan solas (lado largo de 2560 px, WEBP). Los clips suben tal cual: expórtalos en H.264, 1080p y de 5 a 10 MB.</p>
+    <div class="row">
+      <div class="field"><label class="label" for="pTitle">Título</label><input type="text" id="pTitle" maxlength="80" placeholder="Ej. Zapatilla gigante en Bogotá"></div>
+      <div class="field"><label class="label" for="pYear">Año</label><input type="number" id="pYear" min="2015" max="2100"></div>
+    </div>
+    <div class="field"><label class="label" for="pCat">Servicio</label><select id="pCat"></select></div>
+    <div class="field"><span class="label">Herramientas</span><div class="toolpick" id="pTools"></div></div>
+    <div class="field"><label class="label" for="pDesc">Descripción (opcional)</label><textarea id="pDesc" maxlength="400" placeholder="Qué hiciste, para quién, en cuánto tiempo"></textarea></div>
+    <p class="msg" id="edMsg" aria-live="polite"></p>
+    <div class="actions">
+      <button class="btn" type="button" id="edCancel">Cancelar</button>
+      <button class="btn solid" type="submit" id="edSubmit">Publicar proyecto</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const CATS = [
+    {id:"fooh", name:"FOOH", desc:"Fake out-of-home: productos y marcas gigantes integrados en calles y edificios reales."},
+    {id:"cgi", name:"CGI", desc:"Producto, personajes y escenas 3D: modelado, texturas, animación y render."},
+    {id:"vfx", name:"VFX", desc:"Integración, simulaciones y composición sobre material grabado."},
+    {id:"edicion", name:"Edición y color", desc:"Montaje y colorización en DaVinci Resolve para reels, campañas y piezas de marca."},
+    {id:"fotografia", name:"Fotografía", desc:"Renders fotorrealistas y edición de fotografía de producto."},
+    {id:"ia", name:"Inteligencia artificial", desc:"Imagen y video con IA local: influencers virtuales y contenido para marcas."}
+  ];
+  const TOOLS = ["Blender","Houdini","Nuke","DaVinci Resolve","Substance Painter","Unreal Engine","IA"];
+  const MAX_VIDEO = 15 * 1024 * 1024, MAX_IMAGE_IN = 40 * 1024 * 1024;
+  const catName = id => (CATS.find(c => c.id === id) || {name:id}).name;
+  const $ = s => document.querySelector(s);
+
+  let data = {v:1, projects:[]};
+  let filter = (location.hash || "").slice(1);
+  if (!CATS.some(c => c.id === filter)) filter = "all";
+  const localUrls = {};          // fresh uploads shown in this view before reload
+  let artifactNs = null, canEdit = false, busy = false;
+
+  const src = p => localUrls[p.file] || p.file;
+
+  function renderServices(){
+    const ul = $("#services"); ul.textContent = "";
+    for (const c of CATS){
+      const n = data.projects.filter(p => p.category === c.id).length;
+      const li = document.createElement("li");
+      const a = document.createElement("a"); a.href = "#" + c.id;
+      a.addEventListener("click", e => { e.preventDefault(); setFilter(c.id); $("#trabajo").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"}); });
+      const h = document.createElement("h3"); h.textContent = c.name;
+      const p = document.createElement("p"); p.textContent = c.desc;
+      const k = document.createElement("span"); k.className = "count"; k.textContent = n ? (n === 1 ? "1 proyecto" : n + " proyectos") : "Próximamente";
+      a.append(h, p, k); li.append(a); ul.append(li);
+    }
+  }
+
+  function renderFilters(){
+    const box = $("#filters"); box.textContent = "";
+    const opts = [{id:"all", name:"Todo"}, ...CATS];
+    for (const c of opts){
+      const n = c.id === "all" ? data.projects.length : data.projects.filter(p => p.category === c.id).length;
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "chip"; b.setAttribute("aria-pressed", String(filter === c.id));
+      b.textContent = c.name;
+      const s = document.createElement("span"); s.textContent = n; b.append(s);
+      b.addEventListener("click", () => setFilter(c.id));
+      box.append(b);
+    }
+  }
+
+  function setFilter(id){
+    filter = id;
+    try { history.replaceState(null, "", id === "all" ? location.pathname + location.search : "#" + id); } catch(e) {}
+    renderFilters(); renderReel();
+  }
+
+  const io = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+    for (const en of entries){
+      const v = en.target;
+      if (en.isIntersecting) { v.play().catch(()=>{}); } else { v.pause(); }
+    }
+  }, {threshold:.25}) : null;
+
+  function mediaEl(p, inLightbox){
+    let el;
+    if (p.kind === "video"){
+      el = document.createElement("video");
+      el.muted = !inLightbox; el.loop = true; el.playsInline = true; el.setAttribute("playsinline","");
+      el.preload = inLightbox ? "auto" : "metadata";
+      if (inLightbox){ el.controls = true; el.autoplay = true; }
+      el.src = src(p);
+    } else {
+      el = document.createElement("img");
+      el.alt = p.title; el.loading = inLightbox ? "eager" : "lazy"; el.decoding = "async";
+      el.src = src(p);
+    }
+    if (p.w && p.h){ el.width = p.w; el.height = p.h; }
+    el.className = "media";
+    return el;
+  }
+
+  function renderReel(){
+    const reel = $("#reel"); reel.textContent = "";
+    const list = data.projects.filter(p => filter === "all" || p.category === filter);
+    $("#total").textContent = data.projects.length === 1 ? "1 proyecto" : data.projects.length + " proyectos";
+    if (!list.length){
+      const e = document.createElement("div"); e.className = "empty"; e.style.columnSpan = "all";
+      const s = document.createElement("strong");
+      s.textContent = filter === "all" ? "Aquí van tus renders y clips" : catName(filter) + ": próximamente";
+      const t = document.createElement("span");
+      t.textContent = canEdit ? "Usa “Subir proyecto” para agregar el primero." : "Pronto habrá proyectos en esta sección.";
+      e.append(s, document.createElement("br"), t); reel.append(e); return;
+    }
+    for (const p of list){
+      const card = document.createElement("div");
+      card.className = "card"; card.tabIndex = 0; card.setAttribute("role","button");
+      card.setAttribute("aria-label", "Abrir " + p.title);
+      const m = mediaEl(p, false);
+      card.append(m);
+      if (p.kind === "video"){
+        const tag = document.createElement("span"); tag.className = "play"; tag.textContent = "CLIP"; card.append(tag);
+        if (io) io.observe(m);
+      }
+      const meta = document.createElement("div"); meta.className = "meta";
+      const t = document.createElement("span"); t.className = "t"; t.textContent = p.title;
+      const k = document.createElement("span"); k.className = "k"; k.textContent = catName(p.category) + (p.year ? " · " + p.year : "");
+      meta.append(t, k); card.append(meta);
+      if (canEdit){
+        const d = document.createElement("button"); d.type = "button"; d.className = "del"; d.textContent = "Eliminar";
+        d.addEventListener("click", ev => {
+          ev.stopPropagation();
+          if (!d.classList.contains("confirm")){ d.classList.add("confirm"); d.textContent = "¿Seguro? Toca otra vez"; setTimeout(() => { d.classList.remove("confirm"); d.textContent = "Eliminar"; }, 4000); return; }
+          removeProject(p.id, d);
+        });
+        card.append(d);
+      }
+      const open = () => openLightbox(p);
+      card.addEventListener("click", open);
+      card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); } });
+      reel.append(card);
+    }
+  }
+
+  function renderAll(){ renderServices(); renderFilters(); renderReel(); }
+
+  // lightbox
+  const lb = $("#lb");
+  function openLightbox(p){
+    const box = $("#lbMedia"); box.textContent = "";
+    box.append(mediaEl(p, true));
+    $("#lbTitle").textContent = p.title;
+    $("#lbDesc").textContent = p.desc || "";
+    $("#lbMeta").textContent = [catName(p.category), p.year, (p.tools || []).join(" · ")].filter(Boolean).join("  ·  ");
+    if (lb.showModal) lb.showModal(); else lb.setAttribute("open","");
+  }
+  function closeLightbox(){ const v = lb.querySelector("video"); if (v) v.pause(); lb.close ? lb.close() : lb.removeAttribute("open"); }
+  $("#lbClose").addEventListener("click", closeLightbox);
+  lb.addEventListener("click", e => { if (e.target === lb) closeLightbox(); });
+  lb.addEventListener("close", () => { const v = lb.querySelector("video"); if (v) v.pause(); });
+
+  // copy
+  $("#copy").addEventListener("click", async () => {
+    const text = $("#addr").textContent;
+    try { await navigator.clipboard.writeText(text); $("#copied").textContent = "Correo copiado"; }
+    catch(e){
+      const r = document.createRange(); r.selectNodeContents($("#addr"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      $("#copied").textContent = "Seleccionado: cópialo con Ctrl+C";
+    }
+  });
+
+  // ---------- editor ----------
+  const ed = $("#ed"), form = $("#edForm"), msg = $("#edMsg");
+  let picked = null; // {blob, kind, ext, w, h, url}
+
+  function fillEditorOptions(){
+    const sel = $("#pCat"); sel.textContent = "";
+    for (const c of CATS){ const o = document.createElement("option"); o.value = c.id; o.textContent = c.name; sel.append(o); }
+    const tp = $("#pTools"); tp.textContent = "";
+    TOOLS.forEach((t, i) => {
+      const l = document.createElement("label"); const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.value = t; cb.id = "tool-" + i;
+      l.append(cb, document.createTextNode(t)); tp.append(l);
+    });
+    $("#pYear").value = new Date().getFullYear();
+  }
+
+  function setMsg(t, err){ msg.textContent = t; msg.classList.toggle("err", !!err); }
+
+  async function optimizeImage(file){
+    if (file.type === "image/gif") {
+      const bmp = await createImageBitmap(file).catch(() => null);
+      return {blob:file, ext:"gif", w:bmp?.width, h:bmp?.height};
+    }
+    const bmp = await createImageBitmap(file);
+    const max = 2560, s = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * s), h = Math.round(bmp.height * s);
+    const c = document.createElement("canvas"); c.width = w; c.height = h;
+    c.getContext("2d").drawImage(bmp, 0, 0, w, h);
+    let blob = await new Promise(r => c.toBlob(r, "image/webp", 0.88));
+    let ext = "webp";
+    if (!blob || blob.type !== "image/webp"){ blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.9)); ext = "jpg"; }
+    return {blob, ext, w, h};
+  }
+
+  function videoDims(url){
+    return new Promise(res => {
+      const v = document.createElement("video"); v.preload = "metadata"; v.muted = true;
+      v.onloadedmetadata = () => res({w:v.videoWidth, h:v.videoHeight});
+      v.onerror = () => res({});
+      v.src = url;
+    });
+  }
+
+  async function takeFile(file){
+    picked = null; $("#dropPreview").textContent = "";
+    if (!file) return;
+    const isVideo = /^video\/(mp4|webm)$/.test(file.type);
+    const isImage = /^image\/(jpeg|png|webp|gif)$/.test(file.type);
+    if (!isVideo && !isImage){ setMsg("Ese formato no sirve. Usa JPG, PNG, WEBP, GIF, MP4 o WEBM.", true); return; }
+    if (isVideo && file.size > MAX_VIDEO){ setMsg("El clip pesa " + (file.size/1048576).toFixed(1) + " MB. El máximo es 15 MB: expórtalo en H.264 1080p con menos bitrate.", true); return; }
+    if (isImage && file.size > MAX_IMAGE_IN){ setMsg("La imagen pesa más de 40 MB. Expórtala en JPG o PNG más liviano.", true); return; }
+    setMsg(isImage ? "Optimizando imagen…" : "");
+    try {
+      let out;
+      if (isImage){ out = await optimizeImage(file); out.kind = "image"; }
+      else { out = {blob:file, ext: file.type === "video/webm" ? "webm" : "mp4", kind:"video"}; }
+      out.url = URL.createObjectURL(out.blob);
+      if (out.kind === "video") Object.assign(out, await videoDims(out.url));
+      if (out.blob.size > MAX_VIDEO){ setMsg("Aun optimizada, la imagen pesa más de 15 MB. Prueba con una más pequeña.", true); return; }
+      picked = out;
+      const pv = out.kind === "video" ? Object.assign(document.createElement("video"), {src:out.url, muted:true, autoplay:true, loop:true, playsInline:true}) : Object.assign(document.createElement("img"), {src:out.url, alt:""});
+      pv.className = "preview"; $("#dropPreview").append(pv);
+      $("#dropText").hidden = true;
+      if (!$("#pTitle").value) $("#pTitle").value = file.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ").slice(0, 80);
+      setMsg((out.blob.size/1048576).toFixed(1) + " MB listos para subir");
+    } catch(e){ setMsg("No pude leer ese archivo. Prueba exportándolo de nuevo.", true); }
+  }
+
+  $("#file").addEventListener("change", e => takeFile(e.target.files[0]));
+  const drop = $("#drop");
+  drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("over"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+  drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); takeFile(e.dataTransfer.files[0]); });
+
+  function resetForm(){
+    form.reset(); picked = null; $("#dropPreview").textContent = ""; $("#dropText").hidden = false;
+    $("#pYear").value = new Date().getFullYear(); setMsg("");
+  }
+  $("#editToggle").addEventListener("click", () => { resetForm(); ed.showModal ? ed.showModal() : ed.setAttribute("open",""); });
+  $("#edCancel").addEventListener("click", () => ed.close ? ed.close() : ed.removeAttribute("open"));
+
+  function explain(err){
+    const c = err && err.code;
+    if (c === "conflict") return "La página cambió desde otra pestaña. Se va a recargar con la versión nueva; vuelve a subir el archivo.";
+    if (c === "too_large") return "El archivo es demasiado pesado para guardarlo. Prueba con uno más liviano.";
+    if (c === "rate_limited") return "Muchas subidas seguidas. Espera un minuto y vuelve a intentar.";
+    if (c === "capability_disabled" || c === "not_granted" || c === "not_writer") return "Desde este enlace no se puede guardar (por ejemplo, si la página está compartida en público). Quita el enlace público un momento o pásale los archivos a Claude.";
+    return "No se pudo guardar. Inténtalo de nuevo en un momento.";
+  }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (busy) return;
+    if (!picked){ setMsg("Primero elige un render o un clip.", true); return; }
+    const title = $("#pTitle").value.trim();
+    if (!title){ setMsg("Ponle un título al proyecto.", true); $("#pTitle").focus(); return; }
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    const file = "media/" + id + "." + picked.ext;
+    const p = {
+      id, title, file, kind: picked.kind, category: $("#pCat").value,
+      year: Number($("#pYear").value) || null,
+      tools: [...document.querySelectorAll("#pTools input:checked")].map(i => i.value),
+      desc: $("#pDesc").value.trim(), w: picked.w || null, h: picked.h || null,
+      added: new Date().toISOString()
+    };
+    const next = {v:1, projects:[p, ...data.projects]};
+    busy = true; $("#edSubmit").disabled = true; setMsg("Subiendo…");
+    try {
+      await artifactNs.publish({ [file]: picked.blob, "data/projects.json": {content: JSON.stringify(next, null, 2), contentType: "application/json"} });
+      localUrls[file] = picked.url; data = next; picked = null;
+      ed.close ? ed.close() : ed.removeAttribute("open");
+      setFilter(p.category);
+      $("#trabajo").scrollIntoView();
+    } catch(err){ setMsg(explain(err), true); }
+    finally { busy = false; $("#edSubmit").disabled = false; }
+  });
+
+  async function removeProject(id, btn){
+    if (busy) return;
+    const p = data.projects.find(x => x.id === id); if (!p) return;
+    const next = {v:1, projects: data.projects.filter(x => x.id !== id)};
+    busy = true; btn.textContent = "Eliminando…";
+    try {
+      await artifactNs.publish({ "data/projects.json": {content: JSON.stringify(next, null, 2), contentType: "application/json"}, [p.file]: null });
+      data = next; renderAll();
+    } catch(err){ btn.textContent = "No se pudo"; btn.title = explain(err); }
+    finally { busy = false; }
+  }
+
+  // ---------- boot ----------
+  async function load(){
+    try {
+      const r = await fetch("data/projects.json", {cache:"no-store"});
+      if (r.ok){ const j = await r.json(); if (j && Array.isArray(j.projects)) data = j; }
+    } catch(e) {}
+    renderAll();
+  }
+  renderAll();
+  load();
+
+  (async () => {
+    if (!window.claude || !window.claude.use) return;
+    try {
+      const [a, u] = await Promise.all([window.claude.use("artifact"), window.claude.use("user")]);
+      const ok = u ? await u.canEdit() : false;
+      if (a && ok){
+        artifactNs = a; canEdit = true;
+        fillEditorOptions();
+        $("#editToggle").hidden = false;
+        renderReel();
+      }
+    } catch(e) {}
+  })();
+})();
+</script>

@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "projects": [
+    {
+      "id": "outro-piedra-3d",
+      "title": "Outro Piedra 3D",
+      "file": "media/outro-piedra-3d.mp4",
+      "kind": "video",
+      "category": "edicion",
+      "year": 2026,
+      "tools": ["DaVinci Resolve"],
+      "desc": "Animación de cierre de marca en formato vertical, armada en Fusion: el símbolo se dibuja por capas y cierra con fundido a negro.",
+      "w": 1080,
+      "h": 1920,
+      "added": "2026-10-05T17:00:00.000Z"
+    }
+  ]
+}
